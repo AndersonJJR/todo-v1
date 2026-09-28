@@ -81,9 +81,16 @@ public class TaskService {
         }
 
         Task task = taskRepository.findById(id).get();
-        task.setDeletedAt(LocalDateTime.now());
-        taskRepository.save(task);
 
+        if (task.getStatus().equals(true)){
+            task.setDeletedAt(LocalDateTime.now());
+            task.setStatus(false);
+        } else {
+            task.setDeletedAt(null);
+            task.setStatus(true);
+        }
+
+        taskRepository.save(task);
         return true;
     }
 
